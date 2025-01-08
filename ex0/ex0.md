@@ -158,3 +158,187 @@ Circular Array Queue Data Structure
         return item;
     }
 ```
+## LinkedStack
+```
+**新建的node是headnode,出现在linkedList的最前方，也可以作为LinkedStack的top/last/back**
+**不需要capacity check**
+
+链表基础方法：
+public class LinkedList<T> {
+
+    // Define the ListNode class as an inner class
+    private static class ListNode<T> {
+        T data;
+        ListNode<T> next;
+
+        // Constructor for ListNode
+        ListNode(T data) {
+            this.data = data;
+            this.next = null;
+        }
+    }
+
+    private ListNode<T> head;  // Head of the list
+    private int size;          // Size of the list
+
+    // Constructor to initialize the linked list
+    public LinkedList() {
+        head = null;
+        size = 0;
+    }
+
+    // Method to add a node at the end of the list
+    public void add(T data) {
+        ListNode<T> newNode = new ListNode<>(data);
+        if (head == null) {
+            head = newNode;  // If the list is empty, the new node becomes the head
+        } else {
+            ListNode<T> current = head;
+            // Traverse to the last node
+            while (current.next != null) {
+                current = current.next;
+            }
+            current.next = newNode;  // Link the last node to the new node
+        }
+        size++;
+    }
+
+    // Method to remove the first node of the list
+    public T remove() {
+        if (head == null) {
+            throw new IllegalStateException("List is empty");
+        }
+        T data = head.data;
+        head = head.next;  // Move the head pointer to the next node
+        size--;
+        return data;
+    }
+
+    // Method to check if the list is empty
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    // Method to get the size of the list
+    public int size() {
+        return size;
+    }
+
+    // Method to get the first element (head)
+    public T peek() {
+        if (head == null) {
+            throw new IllegalStateException("List is empty");
+        }
+        return head.data;
+    }
+
+    // Method to print all elements in the list
+    public void printList() {
+        if (head == null) {
+            System.out.println("The list is empty");
+            return;
+        }
+        ListNode<T> current = head;
+        while (current != null) {
+            System.out.print(current.data + " ");
+            current = current.next;
+        }
+        System.out.println();
+    }
+
+    // Method to find an element in the list
+    public boolean contains(T data) {
+        ListNode<T> current = head;
+        while (current != null) {
+            if (current.data.equals(data)) {
+                return true;
+            }
+            current = current.next;
+        }
+        return false;
+    }
+
+    // Method to get an element at a specific index
+    public T get(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index out of range");
+        }
+        ListNode<T> current = head;
+        for (int i = 0; i < index; i++) {
+            current = current.next;
+        }
+        return current.data;
+    }
+}
+```
+### 内部私有类 ListNode
+```
+    private static class ListNode<T> {
+        private final T data;
+        private ListNode<T> next;
+data：存储节点中的实际数据（栈的元素）。
+next：指向下一个节点的引用，用于链接链表中的其他节点。
+
+        private ListNode(T data, ListNode<T> next) {
+            this.data = data;
+            this.next = next;
+        }
+这个构造函数接收两个参数：一个数据（data）和一个指向下一个节点的引用（next）。它用于创建一个新的节点并初始化 data 和 next 字段。
+        private ListNode(T data) {
+            this.data = data;
+        }
+    }
+这个构造函数只接收一个数据参数（data），并默认将 next 设置为 null。它实际上是调用了第一个构造函数，并将 next 设置为 null。
+```
+### private variable和初始化
+```
+    private ListNode<T> head;// Reference to the top of the stack (headnode of list)
+    private int size;// Tracks the number of items in the stack
+
+    public LinkedStack() {
+        head = null;
+        size = 0;
+    }
+```
+### methods
+```
+    // Returns the number of items in the stack
+    public int size() {
+        return size;
+    }
+
+    // Returns a boolean indicating whether the stack has items
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    // Adds an item into the stack
+    public void push(T item) {
+        // Create a new node and make it the head
+        ListNode<T> newNode = new ListNode<>(item, head);
+        head = newNode;
+        size++;
+    }
+
+    // Removes and returns the most recently added item from the stack
+    // throws an IllegalStateException if the stack is empty
+    public T pop() {
+        if (isEmpty()) {
+            throw new IllegalStateException("Stack is empty");
+        }
+        T data = head.data;// Retrieve the data from the head node
+        head = head.next;// Move the head reference to the next node
+        size--;
+        return data;
+    }
+
+    // Returns the most recently added item in the stack
+    // throws an IllegalStateException if the stack is empty
+    public T peek() {
+        if (isEmpty()) {
+            throw new IllegalStateException("Stack is empty");
+        }
+        return head.data;
+    }
+```
+

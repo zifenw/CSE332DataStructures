@@ -91,9 +91,9 @@ public class Client {
         // System.out.println();
         System.out.println("ArrayStack tests:");
         test(new ArrayStack<String>());
-        // System.out.println();
-        // System.out.println("LinkedStack tests:");
-        // test(new LinkedStack<String>());
+        System.out.println();
+        System.out.println("LinkedStack tests:");
+        test(new LinkedStack<String>());
     }
         
 }
