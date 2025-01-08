@@ -2,42 +2,42 @@ public class ArrayStack<T> implements MyStack<T> {
 
     private int capacity;
     private T[] stack;
-    private int items;
+    private int size;
 
     //initialize the constructor 
     @SuppressWarnings("unchecked")
     public ArrayStack() {
         capacity = 10;
         stack = (T[])new Object[capacity];
-        items = 0;
+        size = 0;
     }
 
     // Returns the number of items in the stack
     public int size() {
-        return items;
+        return size;
     }
 
     // Returns a boolean indicating whether the stack has items
     public boolean isEmpty() {
-        return items == 0;
+        return size == 0;
     }
 
     // Adds an item into the stack
     public void push(T item) {
         capacityCheck();
-        stack[items] = item;
-        items++;
+        stack[size] = item;
+        size++;
     }
 
     //check the stack capacity, double it when not enough
     @SuppressWarnings("unchecked")
     public void capacityCheck(){
-        if(items + 1 <= capacity){
+        if(size + 1 <= capacity){
             return;
         }
         capacity *= 2;
         T[] newStatck = (T[]) new Object[capacity]; 
-        for (int i = 0; i < items; i++){
+        for (int i = 0; i < size; i++){
             newStatck[i] = stack[i];
         }
         stack = newStatck;
@@ -49,7 +49,7 @@ public class ArrayStack<T> implements MyStack<T> {
         if (isEmpty()) {
             throw new IllegalStateException("Stack is empty");
         }
-        return stack[items - 1];
+        return stack[size - 1];
     }
     
     // Removes and returns the most recently added item from the stack
@@ -58,8 +58,8 @@ public class ArrayStack<T> implements MyStack<T> {
         if (isEmpty()) {
             throw new IllegalStateException("Stack is empty");
         }
-        items--;
-        T item = stack[items];
+        size--;
+        T item = stack[size];
         return item;
     }
 
