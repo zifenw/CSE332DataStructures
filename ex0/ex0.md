@@ -341,4 +341,89 @@ next：指向下一个节点的引用，用于链接链表中的其他节点。
         return head.data;
     }
 ```
+## LinkedQueue
+```
+Java 的命名习惯为不同的泛型参数赋予了特定的字母：
+
+T（Type）：通常用于表示通用的类型参数，例如 ArrayList<T> 或 LinkedList<T> 中的 T。
+E（Element）：当泛型参数表示集合中的 元素 时，通常使用 E，例如 Queue<E> 或 Set<E>。
+其他常见字母：
+K（Key） 和 V（Value）：用于键值对，例如 Map<K, V>。
+N（Number）：用于表示数字类型。
+
+public class LinkedQueue<E> implements MyQueue<E>{
+    
+    private static class ListNode<E>{
+        private final E data;
+        private ListNode<E> next;
+
+        private ListNode(E data, ListNode<E> next){
+            this.data = data;
+            this.next = next;
+        }
+
+        private ListNode(E data){
+            this.data = data;
+        }
+    }
+
+    private ListNode<E> head;
+    private ListNode<E> tail;
+    private int size;
+
+    public LinkedQueue() {
+        head = null;
+        tail = null;
+        size = 0;
+    }
+
+    // Return the number of items currently in the queue
+    public int size(){
+        return size;
+    }
+
+    // Returns a boolean to indicate whether the queue has items
+    public boolean isEmpty(){
+        return size == 0;
+    }
+    
+    // Adds an item into the queue.
+    public void enqueue(E item){
+        ListNode<E> newNode = new ListNode<>(item);
+        if (isEmpty()) {
+            head = newNode;
+            tail = newNode;
+        } else {
+            tail.next = newNode;
+            tail = newNode;
+        }
+        size++;
+    }
+
+    // Returns the least-recently added item from the queue
+    // Throws an IllegalStateException if the queue is empty
+    public E peek(){
+        if (isEmpty()) {
+            throw new IllegalStateException("Queue is empty");
+        }
+        return head.data;
+    }
+
+    // Removes and returns the least-recently added item from the queue
+    // Throws an IllegalStateException if the queue is empty
+    public E dequeue(){
+        if (isEmpty()) {
+            throw new IllegalStateException("Queue is empty");
+        }
+        E data = head.data;
+        head = head.next;
+        size--;
+        if(isEmpty()){
+            tail = null;
+        }
+        return data;
+    }
+
+}
+```
 

@@ -86,9 +86,9 @@ public class Client {
         System.out.println("ArrayQueue tests:");
         test(new ArrayQueue<String>());
         System.out.println();
-        // System.out.println("LinkedQueue tests:");
-        // test(new LinkedQueue<String>());
-        // System.out.println();
+        System.out.println("LinkedQueue tests:");
+        test(new LinkedQueue<String>());
+        System.out.println();
         System.out.println("ArrayStack tests:");
         test(new ArrayStack<String>());
         System.out.println();
