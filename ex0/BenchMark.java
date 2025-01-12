@@ -133,7 +133,7 @@ public class BenchMark {
 
             for (int i = 10; i <= 10000; i+=100) {
                 double[] times = doMultipleTests(i, 15, 5, 
-                                                        new ArrayQueue<Double>() // change this line to test each data structure
+                                                        new testArrayStack<Double>() // change this line to test each data structure
                                                         );
                 results.print(times[0]);
                 for (int j = 1; j < times.length; j++) {

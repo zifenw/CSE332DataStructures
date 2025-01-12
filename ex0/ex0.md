@@ -427,3 +427,10 @@ public class LinkedQueue<E> implements MyQueue<E>{
 }
 ```
 
+## BenchMark.java Time test
+
+
+ArrayStack 类中的push操作的平均时间复杂度是𝑂(1)，原因如下：
+
+在正常情况下，向栈中添加一个元素只需要将值赋给数组中下一个可用的索引（stack[size] = item），然后将 size 自增。这些操作都是常数时间的。  
+当数组容量不足时，会触发 capacityCheck 方法，对数组容量进行扩展。扩展时，数组容量会翻倍，虽然扩展的过程涉及复制数组中的所有元素，这一操作的时间复杂度是 𝑂(𝑛)，但这种扩展操作并不频繁，平均分摊到所有插入操作上，每次插入的开销仍然是 𝑂(1)。
