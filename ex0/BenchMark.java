@@ -131,7 +131,7 @@ public class BenchMark {
             PrintWriter results = new PrintWriter(resultsFile);
             results.println("n,average time");
 
-            for (int i = 10; i <= 10000; i+=100) {
+            for (int i = 10; i <= 20000; i+=100) {
                 double[] times = doMultipleTests(i, 15, 5, 
                                                         new testArrayStack<Double>() // change this line to test each data structure
                                                         );
