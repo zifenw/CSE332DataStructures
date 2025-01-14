@@ -13,7 +13,7 @@ public static int countDivisible(int[] arr, int denom){
             count++; 
         }   
     } //Θ(N)
-    return count;
+    return count; 
 }
 ```
 - Best-case complexity: Θ(1).
@@ -89,7 +89,7 @@ public static void mystery(List<Integer> lst){
     }  //Θ(N*N)
 }
 ```
-- Best-case complexity: Θ(N^2).
+- Best-case complexity: Θ(1).
 - Worst-case complexity: Θ(N^2). 
 ## Big-O Proofs
 submit a proof that $f(n)\in O(g(n))$
@@ -113,5 +113,29 @@ $f(n)=log_{2}(n^4)$
 $g(n)=log_{2}(n^{1/4})$
 
 
+
+We want to find constants $c$ and $n_{0}$ such that: $$log_{2}(n^4)\leq c\cdot log_{2}(n^{1/4})$$ Simplify the inequality function: $$4log_{2}(n)\leq \frac{c}{4}log_{2}(n)$$ $$4\leq \frac{c}{4}$$ $$16\leq c$$ Thus for any $c\geq 16$, the inequality holds. And there is no additional restriction on $n_{0}$ other than ensuring $n_{0}\geq 1$
+
+We can choose $c=16$ and $n_{0}=1$, and for all $n\geq n_{0}$, the inequality $f(n)\leq cg(n)$ holds true. Therefore, we can conclude that: $$f(n)\in O(g(n))$$
+
+1/13/2025 Zifeng Wang write the .md file and screen shot the mdPreview 
+
 $f(n)=log_{2}(n)$  
 $g(n)=log_{10}(n)$
+
+
+
+We want to find constants $c$ and $n_{0}$ such that: $$log_{2}(n)\leq c\cdot log_{10}(n)$$ 
+We can convert $log_{2}(n)$ from base 2 to base 10, $log_{2}(n) / log_{2}(10) = log_{10}(n)$.
+
+Simplify the inequality function, divide both sides by $log_{2}(10)$: $$log_{10}(n)\leq \frac{1}{c\cdot log_{2}(10)}$$ when $n\rightarrow\infty$, the term $(1-\frac{1}{n^2})$ will approaches 1.  
+ 
+We can choose $c=2$ and $n_{0}=2$ $$1\leq 2(1-\frac{1}{4})=2\cdot\frac{3}{4}=1.5$$
+When n increase, $(1-\frac{1}{n^2})$ will increase. When $n\rightarrow\infty$, right side will approached 2.
+
+So, for $n\geq 2$, the inequality $n^3\leq c(n^3-n)$ holds.  
+
+Thus, we have shown that there exist $c=2$ and $n_{0}=2$ such that for all $n\geq n_{0}$, the inequality $f(n)\leq cg(n)$ holds true. Therefore, we can conclude that: $$f(n)\in O(g(n))$$
+
+1/13/2025 Zifeng Wang write the .md file and screen shot the mdPreview 
+
