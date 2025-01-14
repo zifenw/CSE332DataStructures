@@ -1,4 +1,4 @@
-## Θ not Big-O
+## Big-Θ not Big-O
 - Big-O Upper bound，主要用于衡量 最坏情况 的复杂度。
 - Θ Tight bound 描述的是确切的复杂度，包括最佳情况。
 ```java
