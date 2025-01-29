@@ -69,3 +69,89 @@ A dictionary interface. 这与课堂上描述的字典ADT有以下不同之处�
 - 对于这种方法，您将像查找一样在树中导航。对于沿途访问的每个节点，将该节点推到堆栈上（这样您就可以沿着路径向后移动，以便稍后检查平衡）。如果你选择这种方法，欢迎你导入一个专门用于这种方式的堆栈数据结构（例如java.util.stack、java.util.ArrayList或java.util.LinkedList）。
 - 如果你找到了你要找的密钥，你将更新该值并返回旧值。
 如果你创建一个新的叶子，然后一次创建一个节点，从堆栈中弹出一个节点、更新该节点的高度、检查平衡。如果节点不平衡，则执行必要的旋转。
+
+### TreeNode
+```java
+public class TreeNode<K,V> {
+    K key;
+    V value;
+    public int height;
+    public TreeNode<K,V> left;
+    public TreeNode<K,V> right;
+
+    public TreeNode(K key, V value){
+        this.key = key;
+        this.value = value;
+        height = 0;
+        this.left = null;
+        this.right = null;
+    }
+
+    public TreeNode(K key, V value, TreeNode<K,V> left, TreeNode<K,V> right){
+        this.key = key;
+        this.value = value;
+        this.left = left;
+        this.right = right;
+        updateHeight();
+    }
+
+    // Recalculates the height of this node.
+    // Assumes that the height of both child nodes
+    // are correct.
+    public void updateHeight(){
+        int leftHeight = left==null ? -1 : left.height;
+        int rightHeight = right==null ? -1 : right.height;
+        height = Math.max(leftHeight, rightHeight)+1;
+    }
+
+    public String toString(){
+        return "[" + "key: " + key + ", value: " + value + ", height: " + height + "]";
+    }
+    
+}
+
+```
+### helper function rotate
+```java
+    private TreeNode<K, V> rotateLeft(TreeNode<K, V> root) {
+        TreeNode<K, V> temp = root.right;
+        root.right = temp.left;
+        temp.left = root;
+        root.updateHeight();  // need this to find the new hight for temp
+        temp.updateHeight();
+        root = temp;
+        return root;
+    }
+/*
+root:
+    a
+ x     b
+      y   z 
+temp:
+    b
+ y     z 
+
+root:
+    a
+ x     y
+temp: 
+      b
+   a     z
+x   y
+*/    
+
+```
+## Part 2: findNextKey and findPrevKey
+因为我们的字典是有序的（这意味着我们根据键在数据结构中的出现位置获得了关于键之间比较的信息），所以我们有额外的机会实现利用这种顺序的方法。在本部分中，您将为BinarySearchTree实现两个新的查找操作——findNextKey和findPrevKey。
+
+这些操作类似于find，因为您将使用其顺序属性导航二分查找树。不过，它们与find不同，因为我们将返回一个键而不是一个值。
+
+对于findNextKey，我们希望返回比给定键大的最小键。换句话说，我们希望从当前数据结构中的给定键中返回“下一个键向上”。如果给定的键恰好在数据结构中，那么我们仍然会返回一个严格大于给定键的键（即该键的后继键）。如果给定的键大于或等于数据结构中的最大键，则返回null。
+
+对于findPrevKey，我们也这样做，但所有比较都是相反的。也就是说，我们希望返回比给定密钥更小的最大密钥。如果给定的键小于或等于数据结构中最小的键，那么我们将返回null。
+
+如果findNextKey和findPrevKey中的树为空，则返回null。
+
+这两个操作的运行时间在二叉搜索树的高度上应该是线性的（因此对于AVL树来说，树的大小将是对数的）。
+## Part 3: RangeTree
+Now the moment we’ve been waiting for, the RangeTree! In this data structure we make use of our OrderedDeletelessDictionary implementations. Implement the hasConflict and insert methods according to the descriptions in the method comments. 现在，我们一直在等待的那一刻，RangeTree！在这个数据结构中，我们使用了OrderedDeletelessDictionary实现。根据方法注释中的描述实现hasConflict和插入方法。

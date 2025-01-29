@@ -12,11 +12,24 @@ public class Client {
         Random r = new Random(332);
         List<Integer> keys = new ArrayList<>();
 
-        for(int i = 0; i < 100; i++){
-            int key = r.nextInt(1000);
+        for(int i = 0; i < 10; i++){
+            int key = r.nextInt(10);
+           // System.out.println(dict.insert(key, "A"+key));
+            //System.out.println(dict.size);
             dict.insert(key, "A"+key);
             keys.add(key);
         }
+        // AVLTree<Integer, String> bug = new AVLTree<>();
+        // bug.insert(1, "hi");
+        // System.out.println(bug.insert(1, "lol"));
+        // bug.printSideways();
+        // System.out.println(bug.size);
+        // System.out.println(bug.insert(1, "?"));
+        // bug.printSideways();
+        // System.out.println(bug.getValues());
+        // System.out.println(bug.size);
+        //  dict.printSideways();
+        //  System.out.println(dict.size);
         // check the looks reasonable
         List<Integer> dictKeys = dict.getKeys();
         double previousKey = dictKeys.get(0);
@@ -78,12 +91,32 @@ public class Client {
         Range dance = new Range(5, 8, "dance recital");
         Range match = new Range(9, 11, "tennis match");
         RangeTree schedule = new RangeTree();
-        schedule.insert(lecture);
-        schedule.insert(dance);
-        schedule.insert(nap);
-        schedule.insert(match);
-        schedule.insert(concert);
-        List<Range> scheduled = schedule.getRanges();
+    schedule.insert(lecture);
+    //     System.out.println(schedule.insert(lecture));
+    //     System.out.println(schedule.getRanges());
+    //     System.out.println(schedule.getStartTimes());
+    //     System.out.println(schedule.getEndTimes());
+     schedule.insert(dance);
+    //     System.out.println(schedule.insert(dance));
+    //     System.out.println(schedule.getRanges());
+    //     System.out.println(schedule.getStartTimes());
+    //     System.out.println(schedule.getEndTimes());
+    schedule.insert(nap);
+    //     System.out.println(schedule.insert(nap));
+    //     System.out.println(schedule.getRanges());
+    //     System.out.println(schedule.getStartTimes());
+    //     System.out.println(schedule.getEndTimes());
+     schedule.insert(match);
+    //     System.out.println(schedule.insert(match));
+    //     System.out.println(schedule.getRanges());
+    //     System.out.println(schedule.getStartTimes());
+    //     System.out.println(schedule.getEndTimes());
+    schedule.insert(concert);
+    //     System.out.println(schedule.insert(concert));
+    //     System.out.println(schedule.getRanges());
+    //     System.out.println(schedule.getStartTimes());
+    //     System.out.println(schedule.getEndTimes());
+         List<Range> scheduled = schedule.getRanges();
         if(scheduled.size() == 2 && scheduled.contains(lecture) && scheduled.contains(concert)){
             System.out.println("Super basic test of TreeRange looked good! Gradescope will test it more rigorously, though!");
         }

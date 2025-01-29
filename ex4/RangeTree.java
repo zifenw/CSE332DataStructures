@@ -62,9 +62,40 @@ public class RangeTree{
     // The running time of this method should be O(log n)
     public boolean hasConflict(Range query){
         // TODO
-        return false;
-    }
+        if (isEmpty()) {
+            return false; // No ranges to conflict with
+        }
+        Double prevEnd = byEnd.findPrevKey(query.end);
+        Double prevStart = byStart.findPrevKey(query.end);
+        Double nextStart = byStart.findNextKey(query.start);
+        Double nextEnd = byEnd.findNextKey(query.start);  
+        
+        // there are some range before
+        if (prevStart != null) {
+            // conflict whole period
+            if (prevEnd == null || prevStart > prevEnd) {
+                return true;
+            }
+            // conflict for some part of the schedule 
+            if (prevEnd > query.start) {
+                return true;
+            }
+        }
+        //there are some range after
+        if (nextEnd != null) {
+            // conflict whole period
+            if (nextStart == null || nextEnd < nextStart) {
+                return true;
+            }
+            // conflict for some part of the schedule
+            if (nextStart < query.end) {
+                return true;
+            }
 
+        }
+
+        return false; 
+    }
     // Inserts the given range into the data structure if it has no conflict.
     // Does not modify the data structure if it does have a conflict.
     // Return value indicates whether or not the item was successfully
@@ -72,6 +103,13 @@ public class RangeTree{
     // Running time should be O(log n)
     public boolean insert(Range query){
         // TODO
-        return false;
+        if (hasConflict(query)) {
+            return false; // Cannot insert if there's a conflict
+        }
+        // Insert the range into both trees
+        byStart.insert(query.start, query); // Insert based on the start time
+        byEnd.insert(query.end, query); // Insert based on the end time
+        size++; // Increment the size of the RangeTree
+        return true; // Successfully inserted
     }
 }

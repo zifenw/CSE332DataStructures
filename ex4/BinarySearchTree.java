@@ -49,7 +49,29 @@ public class BinarySearchTree<K extends Comparable<K>, V> implements OrderedDele
     // key present
     public K findNextKey(K key){
         // TODO
-        return null;
+        if (root == null) {
+            return null; // Empty tree, no next key
+        }
+        TreeNode<K, V> current = root;
+        TreeNode<K, V> successor = null;
+
+        while (current != null) {
+            int cmp = key.compareTo(current.key);
+
+            if (cmp < 0) {
+                // If the given key is smaller, move to the left and mark this as a potential successor
+                successor = current;
+                current = current.left;
+            } else if (cmp > 0) {
+                // If the given key is larger, move to the right
+                current = current.right;
+            } else {
+                // If the given key is equal, move to the right to find the successor
+                current = current.right;
+            }
+        }
+        // If successor is not null, return its key
+        return (successor != null) ? successor.key : null;
     }
 
     // Returns the largest key which is less than the given key
@@ -57,7 +79,30 @@ public class BinarySearchTree<K extends Comparable<K>, V> implements OrderedDele
     // key present
     public K findPrevKey(K key){
         // TODO
-        return null;
+        if (root == null) {
+            return null; // Empty tree, no previous key
+        }
+        TreeNode<K, V> current = root;
+        TreeNode<K, V> predecessor = null;
+
+        while (current != null) {
+            int cmp = key.compareTo(current.key);
+
+            if (cmp < 0) {
+                // If the given key is smaller, move to the left
+                current = current.left;
+            } else if (cmp > 0) {
+                // If the given key is larger, move to the right and mark this as a potential predecessor
+                predecessor = current;
+                current = current.right;
+            } else {
+                // If the given key is equal, move to the left to find the predecessor
+                current = current.left;
+            }
+        }
+
+        // If predecessor is not null, return its key
+        return (predecessor != null) ? predecessor.key : null;
     }
 
     public V insert(K key, V value){
