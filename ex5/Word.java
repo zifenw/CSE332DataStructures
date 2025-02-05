@@ -3,6 +3,7 @@ import java.lang.reflect.Array;
 public class Word<T> {
     public final T[] slice;
 
+    @SuppressWarnings("unchecked")
     public Word(T[] arr){
         this.slice = (T[]) new Object[arr.length];
         for(int i = 0; i < arr.length; i++){
@@ -16,6 +17,7 @@ public class Word<T> {
     // in the direction indicated.
     // direction options: "L", "R", "U", "D", "UL", "DL", "UR", "DR"
     // for Left, Right, Up, Down, Up and Left, Down and Left, Up and Right, Down and Right.
+    @SuppressWarnings("unchecked")
     public Word(T[][] grid, int xstart, int ystart, String direction, int n){
         this.slice = (T[]) new Object[n];
         if(direction.equals("L")){
@@ -73,6 +75,7 @@ public class Word<T> {
         if(getClass() != other.getClass()){
             return false;
         }
+        @SuppressWarnings("unchecked")
         Word<T> otherItem = (Word<T>) other;
         if(this.slice.length != otherItem.slice.length){
             return false;
@@ -85,9 +88,16 @@ public class Word<T> {
         return true;
     }
 
-    //TODO
+    
     public int hashCode(){
-        return -1;
+        int result = 1; // Starting value for the hash code
+        final int prime = 31; // Prime number for combining hash codes
+        for (T item : slice) {
+            // If the item is null, consider its hash code as 0
+            int itemHash = (item == null) ? 0 : item.hashCode();
+            result = prime * result + itemHash; // Combine the hash codes
+        }
+        return result;
     }
 
     public String toString(){

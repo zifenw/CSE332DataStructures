@@ -19,6 +19,9 @@ public class WordSearch<T> {
     // if the given word is valid then mark it as seen in the hash table.
     // this operation should run in constant time.
     private void addIfWord(Word<T> word){
+        if(seen.contains(word)) {
+            seen.insert(word, true);
+        }
     }
 
     //TODO
@@ -26,7 +29,13 @@ public class WordSearch<T> {
     // this operation should run in linear time in terms of the
     // size of the data structure.
     public int countWords(){
-        return -1;
+        int count = 0;
+        for(Boolean found : seen.getValues()){
+            if(found) {
+                count++;
+            }
+        }
+        return count;
     }
 
     //TODO
@@ -34,7 +43,13 @@ public class WordSearch<T> {
     // this operation should run in linear time in terms of the
     // size of the data structure.
     public List<Word<T>> getWords(){
-        return new ArrayList<>();
+        List<Word<T>> foundWords = new ArrayList<>();
+        for(Word<T> word : seen.getKeys()){
+            if(seen.find(word)) {  // Check if the word has been marked as found
+                foundWords.add(word);
+            }
+        }
+        return foundWords;
     }
 
     // Performs the word search.

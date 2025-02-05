@@ -102,6 +102,39 @@ Returns a list of all keys in the dictionary
 
 `getValues`
 Returns a list of all values in the dictionary. The order of this list should parallel the list returned by getKeys. That is, the value at index i should be associated with the key at index i of getKeys.返回字典中所有值的列表。此列表的顺序应与getKeys返回的列表平行。也就是说，索引i处的值应与getKeys的索引i处键相关联。
+```java
+    public V insert(K key, V value) {
+        int index = getIndex(key);
+        for (Item<K, V> item : table[index]) {
+            if (item.key.equals(key)) {
+                V oldValue = item.value;
+                item.value = value;
+                return oldValue;
+            }
+        }
+        table[index].add(new Item<>(key, value));
+        size++;
+        return null;
+    }
+
+    public V find(K key) {
+        if (isEmpty()) {
+            throw new IllegalStateException("Dictionary is empty");
+        }
+        int index = getIndex(key);
+        for (Item<K, V> item : table[index]) {
+            if (item.key.equals(key)) {
+                return item.value;
+            }
+        }
+        return null;
+    }
+    private int getIndex(K key) {
+        return Math.abs(Objects.hashCode(key)) % table.length;
+    }
+```
+
+
 
 ## Part 2: Word.hashCode()
 The only way to obtain good performance from hash tables is to use a good hash function. In Java, Object has a method called hashCode that serves as the default hash function. As with the default behavior of other Object methods like equals and toString, the default hashCode is almost certainly not going to do what we want, so we’ll need to override it.从哈希表获得良好性能的唯一方法是使用良好的哈希函数。在Java中，Object有一个名为hashCode的方法作为默认哈希函数。与equals和toString等其他Object方法的默认行为一样，默认的hashCode几乎肯定不会做我们想做的事情，所以我们需要重写它。
@@ -109,6 +142,24 @@ The only way to obtain good performance from hash tables is to use a good hash f
 Write your own implementation of the hashCode method for the Word class to be a “good” hash function. Keep in mind the properties of a “good” hash function that we discussed in class. You may assume that the objects that the Word contains themselves have a “good” hash function implementation.为Word类编写自己的hashCode方法实现，使其成为一个“好”的哈希函数。记住我们在课堂上讨论过的“好”哈希函数的属性。您可以假设Word包含的对象本身具有“良好”的哈希函数实现。
 
 Beware! When Java integers exceed a certain size they may become negative! This is called integer overflow.小心！当Java整数超过一定大小时，它们可能会变为负数！这被称为整数溢出。
+```java
+        long hash = 0; // Initialize hash value
+        long base = 37; // Use prime number 37 as the base
+        long power = 1; // Compute 37^i
+        for (int i = 0; i < slice.length; i++) {
+            T item = slice[i];
+    
+            // Convert slice[i] into an integer value
+            int value = (item instanceof Character) ? ((Character) item) : 
+                        (item instanceof Number ? ((Number) item).intValue() : 
+                        item.toString().charAt(0));
+    
+            hash += value * power; // Weighted sum
+            power *= base; // Update power
+        }
+        return (int) (hash % Integer.MAX_VALUE);
+```
+
 
 ## Part 3: WordSearch
 Now for the main event – the WordSearch algorithm! For this part you will finish our implementation. Rest assured, though, the hardest parts are provided for you. The only things you need to implement are the parts that actually use the dictionary data structure! 现在是主要事件——WordSearch算法！对于这一部分，您将完成我们的实施。不过，请放心，最难的部分是为您提供的。您只需要实现实际使用字典数据结构的部分！

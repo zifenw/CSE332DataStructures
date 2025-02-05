@@ -17,6 +17,7 @@ public class Item <K,V> {
         if(getClass() != other.getClass()){
             return false;
         }
+        @SuppressWarnings("unchecked")
         Item<K,V> otherItem = (Item<K,V>) other;
         return this.key.equals(otherItem.key);
     }
