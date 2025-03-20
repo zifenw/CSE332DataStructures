@@ -5,6 +5,7 @@ import java.util.concurrent.RecursiveTask;
  * countStrs returns the number of elements in arr that equal targetStr.
  * For example, if arr is ["h", "ee", "llll", "llll", "oo", "llll"],
  * then countStrs(arr, "llll") == 3 and countStrs(arr, "h") == 1.
+ * Your code must have O(n) work, O(lg(n)) span, where n is the length of arr
  */
 public class CountStrs {
     private static final ForkJoinPool POOL = new ForkJoinPool();
@@ -12,6 +13,7 @@ public class CountStrs {
     private static String targetStr;
 
     public static int parallelCountStrs(String[] arr, int cutoff, String targetStr) {
+        // TODO: Invoke the ForkJoinPool to call the LessThan7Task
         CountStrs.CUTOFF = cutoff;
         CountStrs.targetStr = targetStr;
         return POOL.invoke(new CountStrsTask(arr, 0, arr.length));
@@ -25,7 +27,7 @@ public class CountStrs {
                 count++;
             }
         }
-        return count; // TODO: you will want to change this
+        return count;
     }
 
     private static class CountStrsTask extends RecursiveTask<Integer> {
@@ -42,18 +44,21 @@ public class CountStrs {
         protected Integer compute() {
             if (hi - lo <= CountStrs.CUTOFF) {
                 // TODO: Step 1. Base Case (i.e. Sequential Case)
-                return sequentialCountStrs(arr, lo, hi, targetStr); // TODO: you will want to change this
+                return sequentialCountStrs(arr, lo, hi, CountStrs.targetStr);
             } else {
                 // TODO: Step 2. Recursive Case (i.e. Parallel/Forking case)
-                int mid = lo + (hi - lo) / 2;
+                int mid = lo + (hi - lo) / 2; // The same as (lo + hi) / 2
+
                 CountStrsTask left = new CountStrsTask(arr, lo, mid);
                 CountStrsTask right = new CountStrsTask(arr, mid, hi);
-                left.fork();
-                int rightResult = right.compute();
-                int leftResult = left.join();
-                // TODO: Step 3. Combining the left and right tasks' results
 
-                return leftResult + rightResult; // TODO: you will want to change this
+                left.fork();                       // 1. Make sure to fork() the left task first
+                int rightResult = right.compute(); // 2. Then compute() the right task
+                int leftResult = left.join();      // 3. Then wait for the leftResult by calling join()
+                //    on the left task before combining results
+
+                // TODO: Step 3. Combining the left and right tasks' results
+                return leftResult + rightResult;
             }
         }
     }
